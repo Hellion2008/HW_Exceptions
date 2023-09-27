@@ -1,9 +1,11 @@
 package hw3;
 
 import java.io.*;
+import java.util.Scanner;
+
 // 1. Задание 4 из презентации
 public class SomeClass {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         InputStream inputStream;
         try{
             String[] strings = {"asdf", "asdf"};
@@ -30,6 +32,8 @@ public class SomeClass {
         task2();
 
         task3();
+
+        task4();
     }
 
     public static void test() throws IOException{
@@ -69,6 +73,16 @@ public class SomeClass {
 
     public static void printSum(Integer a, Integer b) {
         System.out.println(a + b);
+    }
+
+    public static void task4() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Enter some words:");
+        String line = reader.readLine();
+        if (line.isEmpty()){
+            throw new RuntimeException("Line can't be empty!");
+        }
+        System.out.println("Your line is : " + line);
     }
 
 }
