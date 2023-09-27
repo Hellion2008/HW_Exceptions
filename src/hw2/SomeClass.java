@@ -1,7 +1,6 @@
-package hw3;
+package hw2;
 
 import java.io.*;
-import java.util.Scanner;
 
 // 1. Задание 4 из презентации
 public class SomeClass {
