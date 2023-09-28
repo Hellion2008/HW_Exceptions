@@ -5,7 +5,8 @@ public class Program {
         Person person1 = new Person();
         person1.createPerson();
         System.out.println(person1);
+        Parser parser = new Parser();
+        parser.saveToTxt(person1);
 
-        
     }
 }

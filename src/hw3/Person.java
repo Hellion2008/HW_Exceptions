@@ -66,6 +66,30 @@ public class Person {
         return true;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public int getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
     @Override
     //<Фамилия><Имя><Отчество><датарождения> <номертелефона><пол>
     public String toString() {
