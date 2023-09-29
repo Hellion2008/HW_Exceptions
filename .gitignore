@@ -26,4 +26,4 @@ replay_pid*
 /out
 /.idea
 *.iml
-presents.txt
+/src/hw3/*.txt

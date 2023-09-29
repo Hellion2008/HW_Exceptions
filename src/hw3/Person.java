@@ -14,56 +14,63 @@ public class Person {
     private int telephoneNumber;
     private String gender;
 
-    public void createPerson(){
+    public void createPerson() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter data of person: ");
         String line = scanner.nextLine();
-        if (isRightData(line)){
-            String[] data = line.split(" ");
+        String[] data = line.split(" ");
+        if (isRightData(getRightDataCode(data))){
             this.lastname = data[0];
             this.firstName = data[1];
             this.patronymic = data[2];
-            if (isDate(data[3])){
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                this.birthday = LocalDate.parse(data[3], dtf);
+            try{
+                if (isDate(data[3])){
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                    this.birthday = LocalDate.parse(data[3], dtf);
+                }
+                try{
+                    this.telephoneNumber = Integer.parseInt(data[4]);
+                } catch (NumberFormatException e){
+                    throw new PersonDataException("Impossible to parse telephone number");
+                }
+                if (isGender(data[5]))
+                    this.gender = data[5];
+                System.out.println("Creation was successful!");
+            } catch (PersonDataException e){
+                lastname = null;
+                System.out.println(e.getMessage());
             }
-            this.telephoneNumber = Integer.parseInt(data[4]);
-            if (isGender(data[5]))
-                this.gender = data[5];
         }
-        System.out.println("Creation was successful!");
+    }
+
+    private boolean isRightData(int code) {
+        if (code > 0){
+            System.out.printf("Error code: %d. You entered more than needed\n", code);
+            return false;
+        } else if (code < 0){
+            System.out.printf("Error code: %d. You entered less than needed\n", code);
+            return false;
+        }
+        return true;
+    }
+
+    private static int getRightDataCode(String[] line){
+        int code = line.length - COUNT_DATA;
+        return code;
     }
 
     private static boolean isDate(String str){
         if (str.matches("(0[1-9]|[12][0-9]|3[01])\\.(0[0-9]|1[0-2])\\.[12][09][0-9][0-9]")){
             return true;
         }
-        return false;
+        throw new PersonDataException("Impossible to parse birthday");
     }
 
     private static boolean isGender(String str){
         if (str.matches("[FfMm]")){
             return true;
         }
-        return false;
-    }
-
-    private static boolean setGender(String str){
-        if (str.equalsIgnoreCase("f"))
-            return true;
-        return false;
-    }
-
-    private static boolean isRightData(String line){
-        String[] data = line.split(" ");
-        if (data.length > COUNT_DATA){
-            System.out.println("You entered more than needed");
-            return false;
-        } else if (data.length < COUNT_DATA){
-            System.out.println("You entered less than needed");
-            return false;
-        }
-        return true;
+        throw new PersonDataException("Impossible to parse gender");
     }
 
     public String getLastname() {
@@ -93,7 +100,10 @@ public class Person {
     @Override
     //<Фамилия><Имя><Отчество><датарождения> <номертелефона><пол>
     public String toString() {
-        return
+        if (this.getLastname() == null){
+            return "Person doesn't exist.";
+        } else
+            return
                 "<" + lastname + ">" +
                 "<" + firstName + ">" +
                 "<" + patronymic + ">" +
